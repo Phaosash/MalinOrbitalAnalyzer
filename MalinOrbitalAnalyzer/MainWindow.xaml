@@ -4,9 +4,33 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MalinOrbitalAnalyzer"
+        xmlns:ctrls="clr-namespace:MalinOrbitalAnalyzer.DisplayElements"
         mc:Ignorable="d"
         Title="Malin Orbital Analyzer" Height="768" Width="1360">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.6*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!--    Application Version details     -->
+        <TextBlock Grid.Row="1" Grid.Column="2" FontSize="8"
+                   Text="Version: 1.0.0" Margin="5"
+                   HorizontalAlignment="Right"/>
+
+        <!--    Adds the display to the left columns for the combined data set   -->
+        <ctrls:CombinedData Grid.Row="0" Grid.Column="0" />
+        
+        <!--    Adds the Sensor A Display       -->
+        <ctrls:SensorA Grid.Column="1" Grid.Row="0" />
+        
+        <!--    Adds the Sensor B Display       -->
+        <ctrls:SensorB Grid.Column="2" Grid.Row="0" />
     </Grid>
 </Window>
