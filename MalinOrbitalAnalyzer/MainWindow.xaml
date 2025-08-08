@@ -22,7 +22,7 @@
 
         <!--    Application Version details     -->
         <TextBlock Grid.Row="1" Grid.Column="2" FontSize="8"
-                   Text="Version: 1.0.0" Margin="5"
+                   Text="Version: 1.0.5" Margin="5"
                    HorizontalAlignment="Right"/>
 
         <!--    Left hand side content  -->
@@ -66,11 +66,15 @@
 
                 <!--    Main Section        -->
                 <StackPanel Margin="10" Orientation="Vertical">
-                    <ListView x:Name="CombinedSensorListView">
+                    <ListView x:Name="CombinedSensorListView"
+                              HorizontalContentAlignment="Center"
+                              HorizontalAlignment="Stretch"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto"
+                              Height="550">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn x:Name="SensorColumnA" Header="Sensor A" Width="125" />
-                                <GridViewColumn x:Name="SensorColumnB" Header="Sensor B" Width="125" />
+                                <GridViewColumn Header="Sensor A" DisplayMemberBinding="{Binding SensorA}" Width="125" />
+                                <GridViewColumn Header="Sensor B" DisplayMemberBinding="{Binding SensorB}" Width="125" />
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -161,7 +165,10 @@
             <!--    Right hand side content     -->
             <StackPanel Orientation="Vertical" Margin="5" Grid.Column="1" Grid.Row="1">
                 <!--    Displays the sensor data    -->
-                <ListBox x:Name="ListBoxSensorA" />
+                <ListBox x:Name="ListBoxSensorA" HorizontalAlignment="Stretch"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         Height="655"
+                         HorizontalContentAlignment="Center"/>
             </StackPanel>
             <!--  End Right Side Content      -->
         </Grid> <!--    End central section     -->
@@ -247,7 +254,10 @@
             <!--    Right hand side content     -->
             <StackPanel Orientation="Vertical" Margin="5" Grid.Column="1" Grid.Row="1">
                 <!--    Displays the sensor data    -->
-                <ListBox x:Name="ListBoxSensorB" />
+                <ListBox x:Name="ListBoxSensorB" HorizontalAlignment="Stretch"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         Height="655"
+                         HorizontalContentAlignment="Center" />
             </StackPanel>
             <!--  End Right Side Content      -->
         </Grid> <!--    End Right Side Content      -->
