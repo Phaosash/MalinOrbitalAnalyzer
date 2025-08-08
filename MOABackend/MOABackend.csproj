@@ -17,9 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Galileo6.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    <Content Include="Galileo6.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
