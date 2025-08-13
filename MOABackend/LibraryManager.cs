@@ -9,11 +9,17 @@ public class LibraryManager {
     public void LoadData (double average, double deviation){
         const int listSize = 400;
         ReadData readData = new();
+        ClearSensors();
 
         for (int i = 0; i < listSize; i++){
             _sensorA.AddLast(readData.SensorA(average, deviation));
             _sensorB.AddLast(readData.SensorB(average, deviation));
         }
+    }
+
+    private void ClearSensors (){
+        _sensorA.Clear();
+        _sensorB.Clear();
     }
 
     public LinkedList<double> ReturnSensorA (){
@@ -24,7 +30,7 @@ public class LibraryManager {
         return _sensorB;
     }
 
-    private int NumberOfNodes (LinkedList<double> nodeList){
+    public static int NumberOfNodes (LinkedList<double> nodeList){
         return nodeList.Count;
     }
 }
