@@ -17,8 +17,4 @@
     <ProjectReference Include="..\MOABackend\MOABackend.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\" />
-  </ItemGroup>
-
 </Project>

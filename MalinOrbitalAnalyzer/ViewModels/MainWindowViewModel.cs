@@ -13,8 +13,8 @@ internal partial class MainWindowViewModel : ViewModelBase {
     
     [ObservableProperty] private double _sigmaValue = 10.0;
     [ObservableProperty] private double _muValue = 50;
-    [ObservableProperty] private readonly int _searchTargetA;
-    [ObservableProperty] private readonly int _searchTargetB;
+    [ObservableProperty] private int _searchTargetA;
+    [ObservableProperty] private int _searchTargetB;
     [ObservableProperty] private string? _selectionTimeA;
     [ObservableProperty] private string? _selectionTimeB;
     [ObservableProperty] private string? _insertionTimeA;
