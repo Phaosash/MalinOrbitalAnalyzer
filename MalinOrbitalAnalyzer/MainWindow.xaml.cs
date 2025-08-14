@@ -1,90 +1,32 @@
-﻿using MOABackend;
-using System.Data;
+﻿using MalinOrbitalAnalyzer.ViewModels;
 using System.Windows;
+using System.Windows.Input;
 
 namespace MalinOrbitalAnalyzer;
 
-public partial class MainWindow : Window {    
-    private readonly LibraryManager _libraryManager = new();
-
+public partial class MainWindow : Window {      
     public MainWindow (){
         InitializeComponent();
+        DataContext = new MainWindowViewModel();
     }
 
-    private void LoadSensorData_Click (object sender, RoutedEventArgs e){
-        _libraryManager.LoadData(SigmaValue.Value ?? 0.0, MuValue.Value ?? 0.0);
-        ShowAllSensorData();
+    //  Programming requirements 4.14
+    private void MaskNumericInput (object sender, TextCompositionEventArgs e){
+        e.Handled = !TextIsNumeric(e.Text);
     }
 
-    private void UpdateListBoxA (LinkedList<double> list){
-        ListBoxSensorA.ItemsSource = list;
-    }
-
-    private void UpdateListBoxB (LinkedList<double> list){
-        ListBoxSensorB.ItemsSource = list;
-    }
-
-    private void ShowAllSensorData (){
-        ClearDisplays();
-
-        LinkedList<double> listA = _libraryManager.ReturnSensorA();
-        LinkedList<double> listB = _libraryManager.ReturnSensorB();
-
-        PopulateListView(listA, listB);
-        UpdateListBoxA(listA);
-        UpdateListBoxB(listB);
-    }
-
-    private void ClearDisplays (){
-        CombinedSensorListView.Items.Clear();
-        ListBoxSensorA.Items.Clear();
-        ListBoxSensorB.Items.Clear();
-    }
-
-    private void PopulateListView (LinkedList<double> listA, LinkedList<double> listB){
-        var table = new DataTable();
-        table.Columns.Add("SensorA", typeof(double));
-        table.Columns.Add("SensorB", typeof(double));
-
-        var enumA = listA.GetEnumerator();
-        var enumB = listB.GetEnumerator();
-
-        bool hasA = enumA.MoveNext();
-        bool hasB = enumB.MoveNext();
-
-        while (hasA || hasB){
-            var a = hasA ? enumA.Current : (double?)null;
-            var b = hasB ? enumB.Current : (double?)null;
-            table.Rows.Add(a, b);
-
-            hasA = hasA && enumA.MoveNext();
-            hasB = hasB && enumB.MoveNext();
+    //  Programming requirements 4.14
+    private void MaskNumericPaste (object sender, DataObjectPastingEventArgs e){
+        if (e.DataObject.GetDataPresent(typeof(string))){
+            string input = (string)e.DataObject.GetData(typeof(string));
+            if (!TextIsNumeric(input)) e.CancelCommand();
+        } else {
+            e.CancelCommand();
         }
-
-        CombinedSensorListView.ItemsSource = table.DefaultView;
     }
 
-    private void IterativeSearchA_Click (object sender, EventArgs e){
-
-    }
-
-    private void IterativeSearchB_Click (object sender, EventArgs e){ 
-    
-    }
-
-    private void RecursiveSearchA_Click (object sender, EventArgs e){ 
-    
-    }
-
-    private void RecursiveSearchB_Click (object sender, EventArgs e){ 
-    
-    }
-
-    private void SelectionSortA_Click (object sender, EventArgs e){ 
-    
-    }
-
-    private void SelectionSortB_Click (object sender, EventArgs e){ 
-    
+    //  Programming requirements 4.14
+    private static bool TextIsNumeric (string input){
+        return input.All(c => Char.IsDigit(c) || Char.IsControl(c));
     }
 }
