@@ -52,4 +52,46 @@ public class LibraryManager {
             return SortingAlgorithms.InsertionSort(_sensorB);
         }
     }
+
+    public int RunIterativeSearch (bool sensorA, int searchValue){       
+        if (sensorA){
+            bool isSorted = IsSorted(_sensorA);
+
+            if (isSorted){
+                return BinarySearches.BinarySearchIterative(_sensorA, searchValue, 0, _sensorA.Count - 1);
+            }
+
+            return -999;
+        } else {
+            bool isSorted = IsSorted(_sensorB);
+
+            if (isSorted){
+                return BinarySearches.BinarySearchIterative(_sensorB, searchValue, 0, _sensorB.Count - 1);
+            }
+
+            return -999;
+        }
+    }
+
+    private static bool IsSorted (LinkedList<double> nodeList){
+        if (nodeList == null){
+            return false;
+        }
+
+        if (nodeList.Count < 2){
+            return true;
+        }
+
+        LinkedListNode<double> current = nodeList.First!;
+
+        while (current.Next != null){
+            if (current.Value > current.Next.Value){
+                return false;
+            }          
+
+            current = current.Next;
+        }
+
+        return true;
+    }
 }
