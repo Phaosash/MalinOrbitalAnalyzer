@@ -8,13 +8,13 @@ using System.Diagnostics;
 
 namespace MalinOrbitalAnalyzer.ViewModels;
 
-internal partial class MainWindowViewModel : ViewModelBase {
+internal partial class MainWindowViewModel : ObservableObject {
     private readonly LibraryManager _libraryManager = new();
     
     [ObservableProperty] private double _sigmaValue = 10.0;
     [ObservableProperty] private double _muValue = 50;
-    [ObservableProperty] private int _searchTargetA;
-    [ObservableProperty] private int _searchTargetB;
+    [ObservableProperty] private int? _searchTargetA;
+    [ObservableProperty] private int? _searchTargetB;
     [ObservableProperty] private string? _selectionTimeA;
     [ObservableProperty] private string? _selectionTimeB;
     [ObservableProperty] private string? _insertionTimeA;
@@ -159,13 +159,56 @@ internal partial class MainWindowViewModel : ViewModelBase {
     //  Programming requirements 4.11
     [RelayCommand]
     private void IterativeSearchSensorA (){
+        bool canDoSearch = CanSearch(true);
 
+        if (canDoSearch){
+            Stopwatch sw = Stopwatch.StartNew();
+            int searchTarget = _libraryManager.RunIterativeSearch(true, SearchTargetA ?? 0);
+            sw.Stop();
+
+            IterativeSearchTimeA = sw.ElapsedTicks + "ticks";
+
+            if (searchTarget == -999){
+                MessageBox.Show("Unable to complete the search please sort the data first");
+            } else {
+                MessageBox.Show("Value was found: " + searchTarget.ToString());
+            }
+        }                  
+    }
+
+    private bool CanSearch (bool isSensorA){
+        int? searchTarget = isSensorA ? SearchTargetA : SearchTargetB;
+        int listCount = isSensorA ? ListBoxSensorAItems.Count : ListBoxSensorBItems.Count;
+
+        if (listCount == 0){
+            MessageBox.Show("Unable to run the iterative search function. Please load some data first.");
+            return false;
+        }
+
+        if (searchTarget is null){
+            MessageBox.Show("Please enter a number to search for.");
+            return false;
+        }
+
+        return true;
     }
 
     //  Programming requirements 4.11
     [RelayCommand]
     private void IterativeSearchSensorB (){
+        bool canDoSearch = CanSearch(false);
 
+        if (canDoSearch){
+            int searchTarget = _libraryManager.RunIterativeSearch(false, SearchTargetB ?? 0);
+
+            if (searchTarget == -999){
+                MessageBox.Show("Unable to complete the search please sort the data first");
+            } else {
+                MessageBox.Show("Value was found: " + searchTarget.ToString());
+            }
+        }
+
+        _libraryManager.RunIterativeSearch(false, SearchTargetB ?? 0);
     }
 
     //  Programming requirements 4.11
