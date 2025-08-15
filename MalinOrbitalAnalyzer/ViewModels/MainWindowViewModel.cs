@@ -9,7 +9,7 @@ using System.Diagnostics;
 namespace MalinOrbitalAnalyzer.ViewModels;
 
 internal partial class MainWindowViewModel : ObservableObject {
-    private readonly LibraryManager _libraryManager = new();
+    /*private readonly LibraryManager _libraryManager = new();
     
     [ObservableProperty] private double _sigmaValue = 10.0;
     [ObservableProperty] private double _muValue = 50;
@@ -221,5 +221,5 @@ internal partial class MainWindowViewModel : ObservableObject {
     [RelayCommand]
     private void RecursiveSearchSensorB (){
 
-    }
+    }*/
 }

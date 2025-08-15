@@ -4,291 +4,43 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MalinOrbitalAnalyzer"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:vm="clr-namespace:MalinOrbitalAnalyzer.ViewModels" 
-        d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
+        xmlns:vm="clr-namespace:MalinOrbitalAnalyzer.ViewModels"
+        xmlns:ctrls="clr-namespace:MalinOrbitalAnalyzer.Views"
         mc:Ignorable="d"
         Title="Malin Orbital Analyzer" Height="768" Width="1360">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.6*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <!--    Application Version details     -->
-        <TextBlock Grid.Row="1" Grid.Column="2" FontSize="8"
+        <TextBlock Grid.Row="2" FontSize="8"
                    Text="Version: 1.0.5" Margin="5"
                    HorizontalAlignment="Right"/>
 
-        <!--    Left hand side content  -->
-        <Grid Grid.Column="0" Grid.Row="0">
-            <!--    Header section      -->
-            <StackPanel Orientation="Vertical" Margin="5" 
-                        HorizontalAlignment="Center" VerticalAlignment="Top">
-                <!--    Numeric Controls        -->
-                <StackPanel Orientation="Horizontal">
-                    <!--    Sigma controls      -->
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                        <TextBlock Text="Sigma" Margin="5" FontSize="18"
-                                   HorizontalAlignment="Center" />
-
-                        <!--    Programming Requirements 4.13   -->
-                        <xctk:DoubleUpDown x:Name="SigmaValue" Minimum="10.0"
-                                            Maximum="20.0" Value="{Binding SigmaValue, Mode=TwoWay}" 
-                                            FontSize="16" Width="130" 
-                                            Margin="10"/>
-                    </StackPanel>
-
-                    <!--    Mu controls     -->
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                        <TextBlock Text="Mu" Margin="5" FontSize="18"
-                                   HorizontalAlignment="Center" />
-
-                        <!--   Programming Requirements 4.13 -->
-                        <xctk:DoubleUpDown x:Name="MuValue" Minimum="35.0"
-                                    Maximum="75.0" Value="{Binding MuValue}" FontSize="16"
-                                    Width="130" Margin="10"/>
-                    </StackPanel>
-
-
-                </StackPanel>
-
-                <!--    Load sensor data button     -->
-                <Button x:Name="BtnLoadSensorData" Margin="10"
-                        Command="{Binding LoadSensorDataCommand}">
-                    <Label Content="Load Sensor Data" FontSize="16" />
-                </Button>
-
-                <!--    Main Section        -->
-                <StackPanel Margin="10" Orientation="Vertical">
-                    <ListView x:Name="CombinedSensorListView"
-                              HorizontalContentAlignment="Center"
-                              HorizontalAlignment="Stretch"
-                              ScrollViewer.VerticalScrollBarVisibility="Auto"
-                              Height="550" ItemsSource="{Binding SensorDataList}">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Sensor A" DisplayMemberBinding="{Binding SensorA}" Width="125"  />
-                                <GridViewColumn Header="Sensor B" DisplayMemberBinding="{Binding SensorB}" Width="125" />
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </StackPanel>
-                <!--  End main section    -->
-            </StackPanel>
-            <!--  End Header Section      -->
-        </Grid> <!--    End left hand side content  -->
+        <!--    Application Title     -->
+        <TextBlock Grid.Row="0" FontSize="24"
+           Text="Marlin Orbital Analyzer" Margin="5" FontWeight="SemiBold"/>
         
-        <!--    Central Section -->
-        <Grid Grid.Column="1" Grid.Row="0">
+        <!--    Main Content Area   -->
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+            <!--    Adds the Combined List View control     -->
+            <ctrls:CombinedSensorView Grid.Column="0" />
 
-            <!--    Title   -->
-            <TextBlock Text="Sensor A" FontSize="24" FontWeight="SemiBold" 
-                       Grid.Column="0" Grid.Row="0" Margin="5"/>
+            <!--    Adds the Control for Sensor A       -->
+            <ctrls:SensorAView Grid.Column="1" />
 
-            <!--    Left hand side content      -->
-            <StackPanel Orientation="Vertical" Margin="5" Grid.Column="0" Grid.Row="1">
-                <!--    Iterative Binary Search Section     -->
-                <StackPanel Orientation="Vertical">
-                    <TextBlock FontSize="16" Text="Iterative Binary Search"
-                               FontWeight="SemiBold"/>
-
-                    <Button x:Name="BtnIterativeSearchA" Margin="0,10,0,0"
-                            Command="{Binding IterativeSearchSensorACommand}">
-                        <Label Content="Search" />
-                    </Button>
-
-                    <!--    Processing time     -->
-                    <TextBox x:Name="IterativeTimeA" Margin="0,10,0,0" 
-                             FontSize="16" IsReadOnly="True" />
-                </StackPanel>
-
-                <!--    Recursive Binary Search Section     -->
-                <StackPanel Orientation="Vertical" Margin="0,20,0,0">
-                    <TextBlock FontSize="16" Text="Recursive Binary Search"
-                               FontWeight="SemiBold"/>
-
-                    <Button x:Name="BtnRecursiveSearchA" Margin="0,10,0,0">
-                        <Label Content="Search" />
-                    </Button>
-
-                    <!--    Processing time     -->
-                    <TextBox x:Name="RecursiveTimeA" Margin="0,10,0,0" FontSize="16" />
-
-                    <!--    Search Target   -->
-                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                        <TextBlock Text=" Search Target" FontSize="16" />
-                        
-                        <!--    Programming requirements 4.14   -->
-                        <TextBox Margin="10,0,0,0" FontSize="16" Width="100"
-                                 PreviewTextInput="MaskNumericInput"
-                                 DataObject.Pasting="MaskNumericPaste"
-                                 Text="{Binding SearchTargetA, Mode=TwoWay,TargetNullValue='', FallbackValue=''}"/>
-                    </StackPanel>
-                </StackPanel>
-
-                <!--    Selection Sort Section     -->
-                <StackPanel Orientation="Vertical" Margin="0,20,0,0">
-                    <TextBlock FontSize="16" Text="Selection Sort"
-                               FontWeight="SemiBold"/>
-
-                    <Button x:Name="BtnSelectionSortA" Margin="0,10,0,0"
-                            Command="{Binding SelectionSortSensorACommand}">
-                        <Label Content="Sort" />
-                    </Button>
-
-                    <!--    Processing time     -->
-                    <TextBox x:Name="SelectionTimeA" Margin="0,10,0,0" 
-                             FontSize="16" IsReadOnly="True"
-                             Text="{Binding SelectionTimeA}"/>
-                </StackPanel>
-
-                <!--    Insertion Sort Section     -->
-                <StackPanel Orientation="Vertical" Margin="0,20,0,0">
-                    <TextBlock FontSize="16" Text="Insertion Sort"
-                               FontWeight="SemiBold"/>
-
-                    <Button x:Name="BtnInsertionSortA" Margin="0,10,0,0"
-                            Command="{Binding InsertionSortSensorACommand}">
-                        <Label Content="Sort" />
-                    </Button>
-
-                    <!--    Processing time     -->
-                    <TextBox x:Name="InsertionTimeA" Margin="0,10,0,0" 
-                             FontSize="16" IsReadOnly="True"
-                             Text="{Binding InsertionTimeA}" />
-                </StackPanel>
-            </StackPanel>
-            <!--  End left hand side      -->
-
-            <!--    Right hand side content     -->
-            <StackPanel Orientation="Vertical" Margin="5" Grid.Column="1" Grid.Row="1">
-                <!--    Displays the sensor data    -->
-                <ListBox x:Name="ListBoxSensorA" HorizontalAlignment="Stretch"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto"
-                         Height="655" ItemsSource="{Binding ListBoxSensorAItems}"
-                         HorizontalContentAlignment="Center" />
-            </StackPanel>
-            <!--  End Right Side Content      -->
-        </Grid> <!--    End central section     -->
-        
-        <!--    Right Side Content      -->
-        <Grid Grid.Column="2" Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-            <!--    Title   -->
-            <TextBlock Text="Sensor B" FontSize="24" FontWeight="SemiBold" 
-                       Grid.Column="0" Grid.Row="0" Margin="5"/>
-
-            <!--    Left hand side content      -->
-            <StackPanel Orientation="Vertical" Margin="5" Grid.Column="0" Grid.Row="1">
-                <!--    Iterative Binary Search Section     -->
-                <StackPanel Orientation="Vertical">
-                    <TextBlock FontSize="16" Text="Iterative Binary Search"
-                               FontWeight="SemiBold"/>
-
-                    <Button x:Name="BtnIterativeSearchB" Margin="0,10,0,0"
-                            Command="{Binding IterativeSearchSensorBCommand}">
-                        <Label Content="Search" />
-                    </Button>
-
-                    <!--    Processing time     -->
-                    <TextBox x:Name="IterativeTimeB" Margin="0,10,0,0" 
-                             FontSize="16" IsReadOnly="True" />
-                </StackPanel>
-
-                <!--    Recursive Binary Search Section     -->
-                <StackPanel Orientation="Vertical" Margin="0,20,0,0">
-                    <TextBlock FontSize="16" Text="Recursive Binary Search"
-                               FontWeight="SemiBold"/>
-
-                    <Button x:Name="BtnRecursiveSearchB" Margin="0,10,0,0">
-                        <Label Content="Search" />
-                    </Button>
-
-                    <!--    Processing time     -->
-                    <TextBox x:Name="RecursiveTimeB" Margin="0,10,0,0" 
-                             FontSize="16" IsReadOnly="True" />
-
-                    <!--    Search target   -->
-                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                        <TextBlock Text=" Search Target" FontSize="16" />
-                        
-                        <!--    Programming requirements 4.14   -->
-                        <TextBox Margin="10,0,0,0" FontSize="16" Width="100"
-                                 PreviewTextInput="MaskNumericInput"
-                                 DataObject.Pasting="MaskNumericPaste"
-                                 Text="{Binding SearchTargetB, Mode=TwoWay, TargetNullValue='', FallbackValue=''}"/>
-                    </StackPanel>
-                </StackPanel>
-
-                <!--    Selection Sort Section     -->
-                <StackPanel Orientation="Vertical" Margin="0,20,0,0">
-                    <TextBlock FontSize="16" Text="Selection Sort"
-                               FontWeight="SemiBold"/>
-
-                    <Button x:Name="BtnSelectionSortB" Margin="0,10,0,0"
-                            Command="{Binding SelectionSortSensorBCommand}">
-                        <Label Content="Sort" />
-                    </Button>
-
-                    <!--    Processing time     -->
-                    <TextBox x:Name="SelectionTimeB" Margin="0,10,0,0" 
-                             FontSize="16" IsReadOnly="True"
-                             Text="{Binding SelectionTimeB}"/>
-                </StackPanel>
-
-                <!--    Insertion Sort Section     -->
-                <StackPanel Orientation="Vertical" Margin="0,20,0,0">
-                    <TextBlock FontSize="16" Text="Insertion Sort"
-                               FontWeight="SemiBold"/>
-
-                    <Button x:Name="BtnInsertionSortB" Margin="0,10,0,0"
-                            Command="{Binding InsertionSortSensorBCommand}">
-                        <Label Content="Sort" />
-                    </Button>
-
-                    <!--    Processing time     -->
-                    <TextBox x:Name="InsertionTimeB" Margin="0,10,0,0" 
-                             FontSize="16" IsReadOnly="True"
-                             Text="{Binding InsertionTimeB}"/>
-                </StackPanel>
-            </StackPanel>
-            <!--  End left hand side      -->
-
-            <!--    Right hand side content     -->
-            <StackPanel Orientation="Vertical" Margin="5" Grid.Column="1" Grid.Row="1">
-                <!--    Displays the sensor data    -->
-                <ListBox x:Name="ListBoxSensorB" HorizontalAlignment="Stretch"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto"
-                         Height="655" ItemsSource="{Binding ListBoxSensorBItems}"
-                         HorizontalContentAlignment="Center" />
-            </StackPanel>
-            <!--  End Right Side Content      -->
-        </Grid> <!--    End Right Side Content      -->
+            <!--    Adds the control for Sensor B   -->
+            <ctrls:SensorBView Grid.Column="2" />
+        </Grid>
     </Grid>
 </Window>
