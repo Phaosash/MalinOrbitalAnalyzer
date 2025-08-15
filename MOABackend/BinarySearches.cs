@@ -3,25 +3,29 @@
 internal class BinarySearches {
     //  Programming requirements 4.9
     public static int BinarySearchIterative (LinkedList<double> list, double searchValue, int minimum, int maximum){
-        if (list == null || list.Count == 0 || minimum < 0 || maximum >= list.Count || minimum > maximum){
-            throw new ArgumentException("Invalid input parameters.");
-        }
-
-        while (minimum <= maximum - 1){
-            int middle = (minimum + maximum) / 2;
-            double middleValue = list.ElementAt(middle);
-
-            if (searchValue == middleValue){
-                return middle + 1;
+        try {
+            if (list == null || list.Count == 0 || minimum < 0 || maximum >= list.Count || minimum > maximum){
+                throw new ArgumentException("Invalid input parameters.");
             }
-            else if (searchValue < middleValue){
-                maximum = middle - 1;
-            } else {
-                minimum = middle + 1;
-            }
-        }
 
-        return minimum;
+            while (minimum <= maximum - 1){
+                int middle = (minimum + maximum) / 2;
+                double middleValue = list.ElementAt(middle);
+
+                if (searchValue == middleValue){
+                    return middle + 1;
+                }
+                else if (searchValue < middleValue){
+                    maximum = middle - 1;
+                } else {
+                    minimum = middle + 1;
+                }
+            }
+
+            return minimum;
+        } catch {
+            return -999;
+        }
     }
 
     //  Programming requirements 4.10
