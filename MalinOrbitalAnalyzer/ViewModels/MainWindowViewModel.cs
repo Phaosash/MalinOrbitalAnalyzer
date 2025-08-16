@@ -3,8 +3,9 @@ using CommunityToolkit.Mvvm.Input;
 using MalinOrbitalAnalyzer.Models;
 using MOABackend;
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Diagnostics;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace MalinOrbitalAnalyzer.ViewModels;
 
@@ -23,6 +24,7 @@ internal partial class MainWindowViewModel : ObservableObject {
     [ObservableProperty] private string? _iterativeSearchTimeB;
     [ObservableProperty] private string? _recursiveSearchTimeA;
     [ObservableProperty] private string? _recursiveSearchTimeB;
+    [ObservableProperty] private ObservableCollection<int> _targetIndexA = [];
 
     public ObservableCollection<double> ListBoxSensorAItems { get; } = [];
     public ObservableCollection<double> ListBoxSensorBItems { get; } = [];
@@ -171,7 +173,7 @@ internal partial class MainWindowViewModel : ObservableObject {
             if (searchTarget == -999){
                 MessageBox.Show("Unable to complete the search please sort the data first");
             } else {
-                MessageBox.Show("Value was found: " + searchTarget.ToString());
+                HighlightItems(searchTarget, true);
             }
         }                  
     }
@@ -221,5 +223,22 @@ internal partial class MainWindowViewModel : ObservableObject {
     [RelayCommand]
     private void RecursiveSearchSensorB (){
 
+    }
+
+    private void HighlightItems (int? targetIndex, bool isSensorA){
+        if (!targetIndex.HasValue) return;
+
+        int index = targetIndex.Value;
+
+        int startIndex = Math.Max(index - 2, 0);
+        int endIndex = Math.Min(index + 2, ListBoxSensorAItems.Count - 1);
+
+        var selectedIndices = new ObservableCollection<int>();
+
+        for (int i = startIndex; i <= endIndex; i++){
+            selectedIndices.Add(i);
+        }
+
+        TargetIndexA = selectedIndices;
     }
 }

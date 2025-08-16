@@ -183,7 +183,9 @@
                 <ListBox x:Name="ListBoxSensorA" HorizontalAlignment="Stretch"
                          ScrollViewer.VerticalScrollBarVisibility="Auto"
                          Height="655" ItemsSource="{Binding ListBoxSensorAItems}"
-                         HorizontalContentAlignment="Center" />
+                         HorizontalContentAlignment="Center"
+                         SelectionMode="Multiple"
+                         SelectedItem="{Binding TargetIndexA, Mode=TwoWay}" />
             </StackPanel>
             <!--  End Right Side Content      -->
         </Grid> <!--    End central section     -->
