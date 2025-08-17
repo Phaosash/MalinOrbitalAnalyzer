@@ -1,111 +1,64 @@
-﻿using MOABackend.DataManagers;
+﻿using ErrorLogging;
+using MOABackend.DataManagers;
+using MOABackend.DataModels;
 
 namespace MOABackend;
 
 public class LibraryManager {
-    //  Programming requirements 4.1
     private LinkedList<double> _sensorA = new();
     private LinkedList<double> _sensorB = new();
 
     public bool CreateSensorData (double average, double deviation){
-        _sensorA.Clear();
-        _sensorB.Clear();
-
-        _sensorA = DataCreation.LoadData(average, deviation, true);
-        _sensorB = DataCreation.LoadData(average, deviation, false);
+        try {
+            _sensorA = DataCreation.LoadData(average, deviation, true);
+            _sensorB = DataCreation.LoadData(average, deviation, false);
         
-        return true;
-    }
-
-    public LinkedList<double> ReturnSensorA (){
-        return _sensorA;
-    }
-
-    public LinkedList<double> ReturnSensorB (){
-        return _sensorB;
-    }
-
-    //  Programming requirements 4.5
-    //  This redundent method returns an integer value of the number of items in the LinkedList,
-    //  as I could just do the .count on the list when using it directly if needed.
-    private static int NumberOfNodes (LinkedList<double> nodeList){
-        return nodeList.Count;
-    }
-
-    public bool RunSelectionSort (bool sensorA){      
-        if (sensorA){
-            return SortingAlgorithms.SelectionSort(_sensorA);
-        } else {
-             return SortingAlgorithms.SelectionSort(_sensorB);
+            return true;
+        } catch (Exception ex){ 
+            LoggingHandler.Instance.LogError("Encountered an unexpected problem with the CreateSensorData method in the Library Manager", ex);
+            return false; 
         }
     }
 
-    public bool RunInsertionSort (bool sensorA){
-        if (sensorA){
-            return SortingAlgorithms.InsertionSort(_sensorA);
-        } else {
-            return SortingAlgorithms.InsertionSort(_sensorB);
-        }
+    public LinkedList<double> GetSensorData (bool isSensorA){
+        return isSensorA ? _sensorA : _sensorB;
     }
 
-    public int RunIterativeSearch (bool sensorA, int searchValue){       
-        if (sensorA){
-            bool isSorted = IsSorted(_sensorA);
+    public bool RunSort (bool isSensorA){
+        try {
+            var sensorData = isSensorA ? _sensorA : _sensorB;
+            SortAlgorithm sortAlgorithm = new();
+            var algorithmToUse = isSensorA ? sortAlgorithm.SelectionSort : sortAlgorithm.InsertionSort;
 
-            if (isSorted){
-                return BinarySearches.BinarySearchIterative(_sensorA, searchValue, 0, _sensorA.Count - 1);
-            }
-
-            return -999;
-        } else {
-            bool isSorted = IsSorted(_sensorB);
-
-            if (isSorted){
-                return BinarySearches.BinarySearchIterative(_sensorB, searchValue, 0, _sensorB.Count - 1);
-            }
-
-            return -999;
-        }
-    }
-
-    public int RunRecursiveSearch (bool sensorA, int searchValue){  
-        if (sensorA){
-            bool isSorted = IsSorted(_sensorA);
-
-            if (isSorted){
-                return BinarySearches.BinarySearchRecursive(_sensorA, searchValue, 0, _sensorA.Count - 1);
-            }
-
-            return -999;
-        } else {
-            bool isSorted = IsSorted(_sensorB);
-            if (isSorted){
-                return BinarySearches.BinarySearchRecursive(_sensorB, searchValue, 0, _sensorB.Count - 1);
-            }
-
-            return -999;
-        }
-    }
-
-    private static bool IsSorted (LinkedList<double> nodeList){
-        if (nodeList == null){
+            return algorithmToUse switch {
+                "SelectionSort" => SortingAlgorithms.SelectionSort(sensorData),
+                "InsertionSort" => SortingAlgorithms.InsertionSort(sensorData),
+                _ => throw new ArgumentException("Unsupported sorting algorithm")
+            };
+        } catch (Exception ex){
+            LoggingHandler.Instance.LogError("Encountered unexpected problem with the RunSort method in Library Manager", ex);
             return false;
         }
+    }
 
-        if (nodeList.Count < 2){
-            return true;
+    public int RunSearch (bool isSensorA, int searchValue){
+        try {
+            var sensorData = isSensorA ? _sensorA : _sensorB;
+            SearchTypes searchType = new();
+            var searchToUse = isSensorA ? searchType.Iterative : searchType.Recursive;
+
+            if (!DataValidator.IsSorted(sensorData)){
+                return -999;
+            }
+
+            return searchToUse switch {
+                "Iterative" => BinarySearches.BinarySearchIterative(sensorData, searchValue, 0, sensorData.Count - 1),
+                "Recursive" => BinarySearches.BinarySearchRecursive(sensorData, searchValue, 0, sensorData.Count - 1),
+                _ => throw new ArgumentException("Unsupported search type")
+            };
+        } catch (Exception ex){
+            LoggingHandler.Instance.LogError("Encountered an unexpected problem with the RunSearch method in the Library Manager", ex);
+            return -666;
         }
-
-        LinkedListNode<double> current = nodeList.First!;
-
-        while (current.Next != null){
-            if (current.Value > current.Next.Value){
-                return false;
-            }          
-
-            current = current.Next;
-        }
-
-        return true;
     }
 }
