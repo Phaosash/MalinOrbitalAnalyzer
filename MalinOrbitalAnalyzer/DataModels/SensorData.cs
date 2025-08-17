@@ -1,6 +1,6 @@
-﻿namespace MalinOrbitalAnalyzer.Models;
+﻿namespace MalinOrbitalAnalyzer.DataModels;
 
-internal class SensorData {
+internal struct SensorData {
     public double? SensorA { get; set; }
     public double? SensorB { get; set; }
 }

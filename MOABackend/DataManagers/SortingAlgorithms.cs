@@ -1,4 +1,4 @@
-﻿namespace MOABackend;
+﻿namespace MOABackend.DataManagers;
 
 internal class SortingAlgorithms {
     //  Programming requirements 4.7
