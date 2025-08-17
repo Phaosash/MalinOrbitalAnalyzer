@@ -1,4 +1,4 @@
-﻿namespace MOABackend;
+﻿namespace MOABackend.DataManagers;
 
 internal class BinarySearches {
     //  Programming requirements 4.9

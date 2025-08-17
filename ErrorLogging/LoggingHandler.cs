@@ -1,24 +1,24 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace MalinOrbitalAnalyzer.Logging;
+namespace ErrorLogging;
 
-internal class CentralizedErrorLogger {
-    private readonly ILogger<CentralizedErrorLogger>? _logger;
-    private static CentralizedErrorLogger? _instance;
+public class LoggingHandler {
+    private readonly ILogger<LoggingHandler>? _logger;
+    private static LoggingHandler? _instance;
     private static readonly object _lock = new();
 
-    private CentralizedErrorLogger(ILogger<CentralizedErrorLogger> logger){
+    private LoggingHandler(ILogger<LoggingHandler> logger){
         _logger = logger;
     }
 
-    public static CentralizedErrorLogger Instance {
+    public static LoggingHandler Instance {
         get {
             if (_instance == null){
                 lock (_lock){
                     if (_instance == null){
                         var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
-                        var logger = loggerFactory.CreateLogger<CentralizedErrorLogger>();
-                        _instance = new CentralizedErrorLogger(logger);
+                        var logger = loggerFactory.CreateLogger<LoggingHandler>();
+                        _instance = new LoggingHandler(logger);
                     }
                 }
             }

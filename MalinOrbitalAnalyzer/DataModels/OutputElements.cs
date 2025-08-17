@@ -2,6 +2,10 @@
 
 namespace MalinOrbitalAnalyzer.Models;
 
+//  This struct defines several nullable UI control properties, including TextBox and ListBox,
+//  related to displaying and tracking times for iterative, recursive, selection, and insertion
+//  processes. It includes separate controls for two categories, "A" and "B," potentially for
+//  different data sets or stages in an operation.
 internal struct OutputElements {
     public ListView? CombinedListView { get; set; }
     public TextBox? IterativeTimeA { get; set; }

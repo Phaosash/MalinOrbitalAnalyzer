@@ -1,6 +1,6 @@
-﻿using MalinOrbitalAnalyzer.Logging;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
+using ErrorLogging;
 
 namespace MalinOrbitalAnalyzer;
 
@@ -20,7 +20,7 @@ public partial class App : Application {
     }
 
     private static void ConfigureServices (IServiceCollection services){
-        services.AddSingleton<CentralizedErrorLogger>();
+        services.AddSingleton<LoggingHandler>();
         services.AddSingleton<MainWindow>();
     }
 }

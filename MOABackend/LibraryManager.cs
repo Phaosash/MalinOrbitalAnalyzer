@@ -1,27 +1,20 @@
-﻿using Galileo6;
+﻿using MOABackend.DataManagers;
 
 namespace MOABackend;
 
 public class LibraryManager {
     //  Programming requirements 4.1
-    private readonly LinkedList<double> _sensorA = new();
-    private readonly LinkedList<double> _sensorB = new();
+    private LinkedList<double> _sensorA = new();
+    private LinkedList<double> _sensorB = new();
 
-    //  Programming requirements 4.2
-    public void LoadData (double average, double deviation){
-        const int listSize = 400;
-        ReadData readData = new();
-        ClearSensors();
-
-        for (int i = 0; i < listSize; i++){
-            _sensorA.AddLast(readData.SensorA(average, deviation));
-            _sensorB.AddLast(readData.SensorB(average, deviation));
-        }
-    }
-
-    private void ClearSensors (){
+    public bool CreateSensorData (double average, double deviation){
         _sensorA.Clear();
         _sensorB.Clear();
+
+        _sensorA = DataCreation.LoadData(average, deviation, true);
+        _sensorB = DataCreation.LoadData(average, deviation, false);
+        
+        return true;
     }
 
     public LinkedList<double> ReturnSensorA (){
@@ -33,7 +26,9 @@ public class LibraryManager {
     }
 
     //  Programming requirements 4.5
-    public static int NumberOfNodes (LinkedList<double> nodeList){
+    //  This redundent method returns an integer value of the number of items in the LinkedList,
+    //  as I could just do the .count on the list when using it directly if needed.
+    private static int NumberOfNodes (LinkedList<double> nodeList){
         return nodeList.Count;
     }
 
@@ -71,6 +66,10 @@ public class LibraryManager {
 
             return -999;
         }
+    }
+
+    public int RunRecursiveSearch (bool sensorA, int searchValue){  
+        return 10;
     }
 
     private static bool IsSorted (LinkedList<double> nodeList){
