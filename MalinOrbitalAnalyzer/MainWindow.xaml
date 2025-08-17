@@ -4,27 +4,28 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MalinOrbitalAnalyzer"
+<<<<<<< HEAD
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+=======
+        xmlns:vm="clr-namespace:MalinOrbitalAnalyzer.ViewModels"
+        xmlns:ctrls="clr-namespace:MalinOrbitalAnalyzer.Views"
+>>>>>>> 10b3df1e04223d0bc5bc5d700125c0857f94420f
         mc:Ignorable="d"
         Title="Malin Orbital Analyzer" Height="768" Width="1360">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.6*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <!--    Application Version details     -->
-        <TextBlock Grid.Row="1" Grid.Column="2" FontSize="8"
+        <TextBlock Grid.Row="2" FontSize="8"
                    Text="Version: 1.0.5" Margin="5"
                    HorizontalAlignment="Right"/>
 
+<<<<<<< HEAD
         <!--    Left hand side content  -->
         <Grid Grid.Column="0" Grid.Row="0">
             <!--    Header section      -->
@@ -83,23 +84,27 @@
             </StackPanel>
             <!--  End Header Section      -->
         </Grid> <!--    End left hand side content  -->
+=======
+        <!--    Application Title     -->
+        <TextBlock Grid.Row="0" FontSize="24"
+           Text="Marlin Orbital Analyzer" Margin="5" FontWeight="SemiBold"/>
+>>>>>>> 10b3df1e04223d0bc5bc5d700125c0857f94420f
         
-        <!--    Central Section -->
-        <Grid Grid.Column="1" Grid.Row="0">
+        <!--    Main Content Area   -->
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+            <!--    Adds the Combined List View control     -->
+            <ctrls:CombinedSensorView Grid.Column="0" />
 
-            <!--    Title   -->
-            <TextBlock Text="Sensor A" FontSize="24" FontWeight="SemiBold" 
-                       Grid.Column="0" Grid.Row="0" Margin="5"/>
+            <!--    Adds the Control for Sensor A       -->
+            <ctrls:SensorAView Grid.Column="1" />
 
+<<<<<<< HEAD
             <!--    Left hand side content      -->
             <StackPanel Orientation="Vertical" Margin="5" Grid.Column="0" Grid.Row="1">
                 <!--    Iterative Binary Search Section     -->
@@ -288,5 +293,10 @@
             </StackPanel>
             <!--  End Right Side Content      -->
         </Grid> <!--    End Right Side Content      -->
+=======
+            <!--    Adds the control for Sensor B   -->
+            <ctrls:SensorBView Grid.Column="2" />
+        </Grid>
+>>>>>>> 10b3df1e04223d0bc5bc5d700125c0857f94420f
     </Grid>
 </Window>

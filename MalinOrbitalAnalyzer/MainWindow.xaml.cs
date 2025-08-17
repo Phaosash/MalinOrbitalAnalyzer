@@ -12,6 +12,7 @@ public partial class MainWindow : Window {
         InitializeComponent();
         _mainDisplay = new MainDisplay(CreateOutputElement());
     }
+<<<<<<< HEAD
 
     //  Programming requirements 4.14
     private void MaskNumericInput (object sender, TextCompositionEventArgs e){
@@ -128,4 +129,6 @@ public partial class MainWindow : Window {
 
         return output;
     }
+=======
+>>>>>>> 10b3df1e04223d0bc5bc5d700125c0857f94420f
 }
