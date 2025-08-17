@@ -10,13 +10,18 @@ internal class MainDisplay (OutputElements DisplayElements){
     private readonly LibraryManager _libraryManager = new();
 
     public void LoadApplicationData (double sigma, double mu){
-        _libraryManager.CreateSensorData(sigma, mu);
-        ShowAllSensorData();
+        var success = _libraryManager.CreateSensorData(sigma, mu);
+        
+        if (success){
+            ShowAllSensorData();
+        } else {
+            ErrorDialogService.ShowWarning("Something went wrong, unable to load the sensor data. Please try again");
+        }
     }
 
     private void ShowAllSensorData (){
-        var dataSetA = _libraryManager.ReturnSensorA() ?? new LinkedList<double>();
-        var dataSetB = _libraryManager.ReturnSensorB() ?? new LinkedList<double>();
+        var dataSetA = _libraryManager.GetSensorData(true) ?? new LinkedList<double>();
+        var dataSetB = _libraryManager.GetSensorData(false) ?? new LinkedList<double>();
 
         DisplayRenderer.PopulateListView(_displayElements.CombinedListView!, dataSetA, dataSetB);
         DisplayRenderer.DisplayListBoxData(_displayElements.DisplayBoxA!, dataSetA);
@@ -24,7 +29,7 @@ internal class MainDisplay (OutputElements DisplayElements){
     }
 
     public void InitialiseSelectionSort (bool isDataSetA){
-        long timeTaken = ActionTimer.TimeAction(() => _libraryManager.RunSelectionSort(isDataSetA), out bool success);
+        long timeTaken = ActionTimer.TimeAction(() => _libraryManager.RunSort(isDataSetA), out bool success);
         DisplaySortTime(isDataSetA, timeTaken + "ms", isSelectionSort: true);
 
         if (success){
@@ -35,7 +40,7 @@ internal class MainDisplay (OutputElements DisplayElements){
     }
 
     public void InitialiseInsertionSort (bool isDataSetA){
-        long timeTaken = ActionTimer.TimeAction(() => _libraryManager.RunInsertionSort(isDataSetA), out bool success);
+        long timeTaken = ActionTimer.TimeAction(() => _libraryManager.RunSort(isDataSetA), out bool success);
         DisplaySortTime(isDataSetA, timeTaken + "ms", isSelectionSort: false);
 
         if (success){
@@ -46,12 +51,22 @@ internal class MainDisplay (OutputElements DisplayElements){
     }
 
     public void InitialiseIterativeSearch (bool isDataSetA, int inputedValue){
-        if (!CanSearch(isDataSetA)) return;
+        if (!CanSearch(isDataSetA)){
+            return;
+        }
 
-        long timeTaken = ActionTimer.TimeAction(() => _libraryManager.RunIterativeSearch(isDataSetA, inputedValue), out int resultIndex);
+        const int CRITICAL_SEARCH_FAILURE_CODE = -666;
+        const int DATA_NOT_SORTED_ERROR_CODE = -999;
+
+        long timeTaken = ActionTimer.TimeAction(() => _libraryManager.RunSearch(isDataSetA, inputedValue), out int resultIndex);
         DisplaySearchTime(isDataSetA, timeTaken + " ticks", isRecursive: false);
 
-        if (resultIndex == -999){
+        if (resultIndex == CRITICAL_SEARCH_FAILURE_CODE){
+            ErrorDialogService.ShowWarning("An unexpected error occurred while attempting to sort the data. Please try again or contact support if the issue persists.");
+            return;
+        }
+
+        if (resultIndex == DATA_NOT_SORTED_ERROR_CODE){
             ErrorDialogService.ShowWarning($"Unable to complete the search on {(isDataSetA ? "Sensor A" : "Sensor B")}. Please sort the data first.");
         } else {
             //  TODO: Highlight cells in the ListBox
@@ -62,7 +77,7 @@ internal class MainDisplay (OutputElements DisplayElements){
     public void InitialiseRecursiveSearch (bool isDataSetA, int inputedValue){
         if (!CanSearch(isDataSetA)) return;
 
-        long timeTaken = ActionTimer.TimeAction(() => _libraryManager.RunRecursiveSearch(isDataSetA, inputedValue), out int resultIndex);
+        long timeTaken = ActionTimer.TimeAction(() => _libraryManager.RunSearch(isDataSetA, inputedValue), out int resultIndex);
         DisplaySearchTime(isDataSetA, timeTaken + " ticks", isRecursive: true);
 
         if (resultIndex == -999){
@@ -74,7 +89,7 @@ internal class MainDisplay (OutputElements DisplayElements){
     }
 
     private void DisplaySortedData (bool isDataSetA){
-        var data = isDataSetA ? _libraryManager.ReturnSensorA() : _libraryManager.ReturnSensorB();
+        var data = isDataSetA ? _libraryManager.GetSensorData(true) : _libraryManager.GetSensorData(false);
         var listBox = isDataSetA ? _displayElements.DisplayBoxA : _displayElements.DisplayBoxB;
 
         if (data != null && listBox != null){

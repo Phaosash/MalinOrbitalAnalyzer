@@ -8,8 +8,8 @@ internal class BinarySearches {
                 throw new ArgumentException("Invalid input parameters.");
             }
 
-            while (minimum <= maximum - 1){
-                int middle = (minimum + maximum) / 2;
+            while (minimum <= maximum){
+                int middle = minimum + (maximum - minimum) / 2;
                 double middleValue = list.ElementAt(middle);
 
                 if (searchValue == middleValue){
@@ -30,8 +30,8 @@ internal class BinarySearches {
 
     //  Programming requirements 4.10
     public static int BinarySearchRecursive (LinkedList<double> list, double searchValue, int minimum, int maximum){
-        if (minimum <= maximum - 1){
-            int middle = (minimum + maximum) / 2;
+        if (minimum <= maximum){
+            int middle = minimum + (maximum - minimum) / 2;
             double middleValue = list.ElementAt(middle);
 
             if (searchValue == middleValue){
