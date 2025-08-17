@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace MalinOrbitalAnalyzer.Models;
+namespace MalinOrbitalAnalyzer.DataModels;
 
 //  This struct defines several nullable UI control properties, including TextBox and ListBox,
 //  related to displaying and tracking times for iterative, recursive, selection, and insertion

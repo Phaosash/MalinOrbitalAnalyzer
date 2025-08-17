@@ -1,4 +1,4 @@
-﻿namespace MOABackend.DataHandlers;
+﻿namespace MOABackend.DataManagers;
 
 internal class DataValidator {
     public static bool IsSorted (LinkedList<double> nodeList){

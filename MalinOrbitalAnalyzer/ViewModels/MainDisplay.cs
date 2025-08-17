@@ -1,9 +1,9 @@
-﻿using MalinOrbitalAnalyzer.HelperClasses;
-using MalinOrbitalAnalyzer.Models;
+﻿using MalinOrbitalAnalyzer.DataModels;
+using MalinOrbitalAnalyzer.DisplayHelpers;
 using MOABackend;
 using System.Windows;
 
-namespace MalinOrbitalAnalyzer.DisplayHelpers;
+namespace MalinOrbitalAnalyzer.ViewModels;
 
 internal class MainDisplay (OutputElements DisplayElements){
     private readonly OutputElements _displayElements = DisplayElements;

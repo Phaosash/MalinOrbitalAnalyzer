@@ -69,7 +69,22 @@ public class LibraryManager {
     }
 
     public int RunRecursiveSearch (bool sensorA, int searchValue){  
-        return 10;
+        if (sensorA){
+            bool isSorted = IsSorted(_sensorA);
+
+            if (isSorted){
+                return BinarySearches.BinarySearchRecursive(_sensorA, searchValue, 0, _sensorA.Count - 1);
+            }
+
+            return -999;
+        } else {
+            bool isSorted = IsSorted(_sensorB);
+            if (isSorted){
+                return BinarySearches.BinarySearchRecursive(_sensorB, searchValue, 0, _sensorB.Count - 1);
+            }
+
+            return -999;
+        }
     }
 
     private static bool IsSorted (LinkedList<double> nodeList){

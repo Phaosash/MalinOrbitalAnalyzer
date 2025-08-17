@@ -1,5 +1,5 @@
-﻿using MalinOrbitalAnalyzer.DisplayHelpers;
-using MalinOrbitalAnalyzer.Models;
+﻿using MalinOrbitalAnalyzer.DataModels;
+using MalinOrbitalAnalyzer.ViewModels;
 using System.Windows;
 using System.Windows.Input;
 
@@ -12,7 +12,6 @@ public partial class MainWindow : Window {
         InitializeComponent();
         _mainDisplay = new MainDisplay(CreateOutputElement());
     }
-<<<<<<< HEAD
 
     //  Programming requirements 4.14
     private void MaskNumericInput (object sender, TextCompositionEventArgs e){
@@ -47,12 +46,12 @@ public partial class MainWindow : Window {
 
     //  This method initiates the loading of the data for the application
     private void LoadSensorData_Click (object sender, RoutedEventArgs e){
-        _mainDisplay.LoadApplicationData(SigmaValue.Value ?? 0.0, MuValue.Value ?? 0.0);
+        _mainDisplay.LoadApplicationData(SigmaValueInput.Value ?? 0.0, MuValueInput.Value ?? 0.0);
     }
 
     //  Programming requirements 4.11
     private void IterativeSearchA_Click (object sender, RoutedEventArgs e){
-        if (int.TryParse(SearchTargetInputA.Text, out int value)){
+        if (int.TryParse(DataSetTargetInptA.Text, out int value)){
             _mainDisplay.InitialiseIterativeSearch(true, value);
         } else {
             MessageBox.Show("Please enter a valid whole number to search for.", "Input Error", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -61,7 +60,7 @@ public partial class MainWindow : Window {
 
     //  Programming requirements 4.11
     private void IterativeSearchB_Click (object sender, RoutedEventArgs e){
-        if (int.TryParse(SearchTargetInputB.Text, out int value)){
+        if (int.TryParse(DataSetTargetInptB.Text, out int value)){
             _mainDisplay.InitialiseIterativeSearch(false, value);
         } else {
             MessageBox.Show("Please enter a valid whole number to search for.", "Input Error", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -70,7 +69,7 @@ public partial class MainWindow : Window {
 
     //  Programming requirements 4.11
     private void RecursiveSearchA_Click (object sender, RoutedEventArgs e){
-        if (int.TryParse(SearchTargetInputA.Text, out int value)){
+        if (int.TryParse(DataSetTargetInptA.Text, out int value)){
             _mainDisplay.InitialiseRecursiveSearch(true, value);
         } else {
             MessageBox.Show("Please enter a valid whole number to search for.", "Input Error", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -79,7 +78,7 @@ public partial class MainWindow : Window {
 
     //  Programming requirements 4.11
     private void RecursiveSearchB_Click (object sender, RoutedEventArgs e){
-        if (int.TryParse(SearchTargetInputB.Text, out int value)){
+        if (int.TryParse(DataSetTargetInptB.Text, out int value)){
             _mainDisplay.InitialiseRecursiveSearch(false, value);
         } else {
             MessageBox.Show("Please enter a valid whole number to search for.", "Input Error", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -106,29 +105,25 @@ public partial class MainWindow : Window {
         _mainDisplay.InitialiseInsertionSort(false);
     }
 
-    //  Programming requirements 4.11
-
     //  This method returns a completed OutputElements object,
     //  based off the elements available in the applications UI
     private OutputElements CreateOutputElement (){
         OutputElements output = new();
 
-        output.CombinedListView = CombinedSensorListView;
+        output.CombinedListView = CombinedSensorListViewDisplay;
 
-        output.IterativeTimeA = IterativeTimeA;
-        output.RecursiveTimeA = RecursiveTimeA;
-        output.SelectionTimeA = SelectionTimeA;
-        output.InsertionTimeA = InsertionTimeA;
-        output.DisplayBoxA = ListBoxSensorA;
+        output.IterativeTimeA = DisplayIterativeTimeA;
+        output.RecursiveTimeA = DisplayRecursiveTimeA;
+        output.SelectionTimeA = DisplaySelecttionTimeA;
+        output.InsertionTimeA = DisplayInsertionTimeA;
+        output.DisplayBoxA = DataDisplayA;
 
-        output.IterativeTimeB = IterativeTimeB;
-        output.RecursiveTimeB = RecursiveTimeB;
-        output.SelectionTimeB = SelectionTimeB;
-        output.InsertionTimeB = InsertionTimeB;
-        output.DisplayBoxB = ListBoxSensorB;
+        output.IterativeTimeB = DisplayIterativeTimeB;
+        output.RecursiveTimeB = DisplayRecursiveTimeB;
+        output.SelectionTimeB = DisplaySelectionTimeB;
+        output.InsertionTimeB = DisplayInsertionTimeB;
+        output.DisplayBoxB = DataDisplayB;
 
         return output;
     }
-=======
->>>>>>> 10b3df1e04223d0bc5bc5d700125c0857f94420f
 }

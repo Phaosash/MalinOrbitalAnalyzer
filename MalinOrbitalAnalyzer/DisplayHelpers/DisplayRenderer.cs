@@ -1,8 +1,7 @@
-﻿using MalinOrbitalAnalyzer.DisplayHelpers;
-using MalinOrbitalAnalyzer.Models;
+﻿using MalinOrbitalAnalyzer.DataModels;
 using System.Windows.Controls;
 
-namespace MalinOrbitalAnalyzer.HelperClasses;
+namespace MalinOrbitalAnalyzer.DisplayHelpers;
 
 internal static class DisplayRenderer {
     public static void DisplayListBoxData (ListBox listBox, IEnumerable<double> data){
@@ -12,7 +11,6 @@ internal static class DisplayRenderer {
 
     public static void PopulateListView (ListView listView, LinkedList<double> setA, LinkedList<double> setB){
         try {
-            listView.ItemsSource = null;
             listView.Items.Clear();
 
             using var enumA = setA.GetEnumerator();
