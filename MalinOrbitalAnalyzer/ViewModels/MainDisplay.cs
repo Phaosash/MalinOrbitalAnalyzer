@@ -57,10 +57,8 @@ internal class MainDisplay (OutputElements DisplayElements){
         const int CRITICAL_SEARCH_FAILURE_CODE = -666;
         const int DATA_NOT_SORTED_ERROR_CODE = -999;
 
-        long timeTaken = ActionTimer.TimeAction(() => _libraryManager.RunSearch(isDataSetA, inputedValue), out int resultIndex);
+        long timeTaken = ActionTimer.TimeAction(() => _libraryManager.RunIterativeSearch(isDataSetA, inputedValue), out int resultIndex);
         DisplaySearchTime(isDataSetA, timeTaken + " ticks", isRecursive: false);
-
-        int testValue = resultIndex;
 
         if (resultIndex == CRITICAL_SEARCH_FAILURE_CODE){
             ErrorDialogService.ShowWarning("An unexpected error occurred while attempting to sort the data. Please try again or contact support if the issue persists.");
@@ -86,7 +84,7 @@ internal class MainDisplay (OutputElements DisplayElements){
         const int CRITICAL_SEARCH_FAILURE_CODE = -666;
         const int DATA_NOT_SORTED_ERROR_CODE = -999;
 
-        long timeTaken = ActionTimer.TimeAction(() => _libraryManager.RunSearch(isDataSetA, inputedValue), out int resultIndex);
+        long timeTaken = ActionTimer.TimeAction(() => _libraryManager.RunRecursiveSearch(isDataSetA, 11), out int resultIndex);
         DisplaySearchTime(isDataSetA, timeTaken + " ticks", isRecursive: true);
 
         if (resultIndex == CRITICAL_SEARCH_FAILURE_CODE){

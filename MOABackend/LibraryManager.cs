@@ -41,31 +41,29 @@ public class LibraryManager {
         }
     }
 
-    public int RunSearch (bool isSensorA, int searchValue){
-        try {
-            LinkedList<double> sensorData = isSensorA ? _sensorA : _sensorB;
+    public int RunIterativeSearch (bool isSensorA, int searchValue){
+        LinkedList<double> sensorData = isSensorA ? _sensorA : _sensorB;
 
-            if (sensorData == null || sensorData.Count == 0){
-                LoggingHandler.Instance.LogInformation("Sensor data is null or empty");
-                return -999;
-            }
+        bool isSorted = DataValidator.IsSorted(sensorData);
 
-            if (!DataValidator.IsSorted(sensorData)){
-                LoggingHandler.Instance.LogInformation("Sensor data is not sorted");
-                return -888;
-            }
-
-            SearchTypes searchType = new();
-            var searchToUse = isSensorA ? searchType.Iterative : searchType.Recursive;
-
-            return searchToUse switch {
-                "Iterative" => BinarySearches.BinarySearchIterative(sensorData, searchValue, 0, sensorData.Count - 1),
-                "Recursive" => BinarySearches.BinarySearchRecursive(sensorData, searchValue, 0, sensorData.Count - 1),
-                _ => throw new ArgumentException("Unsupported search type")
-            };
-        } catch (Exception ex){
-            LoggingHandler.Instance.LogError("Encountered an unexpected problem with the RunSearch method in the Library Manager", ex);
-            return -666;
+        if (isSorted){
+            return BinarySearches.BinarySearchIterative(sensorData, searchValue, 0, sensorData.Count - 1);
+        } else {
+            LoggingHandler.Instance.LogInformation("Sensor data is not sorted");
+            return -999;
         }
+    }
+
+    public int RunRecursiveSearch (bool isSensorA, int searchValue){
+        LinkedList<double> sensorData = isSensorA ? _sensorA : _sensorB;
+
+        bool isSorted = DataValidator.IsSorted(sensorData);
+
+        if (isSorted){
+            return BinarySearches.BinarySearchRecursive(sensorData, searchValue, 0, sensorData.Count - 1);
+        } else {
+            LoggingHandler.Instance.LogInformation("Sensor data is not sorted");
+            return -999;
+        }        
     }
 }
