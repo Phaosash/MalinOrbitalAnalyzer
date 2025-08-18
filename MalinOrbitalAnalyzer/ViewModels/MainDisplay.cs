@@ -84,7 +84,7 @@ internal class MainDisplay (OutputElements DisplayElements){
         const int CRITICAL_SEARCH_FAILURE_CODE = -666;
         const int DATA_NOT_SORTED_ERROR_CODE = -999;
 
-        long timeTaken = ActionTimer.TimeAction(() => _libraryManager.RunRecursiveSearch(isDataSetA, 11), out int resultIndex);
+        long timeTaken = ActionTimer.TimeAction(() => _libraryManager.RunRecursiveSearch(isDataSetA, inputedValue), out int resultIndex);
         DisplaySearchTime(isDataSetA, timeTaken + " ticks", isRecursive: true);
 
         if (resultIndex == CRITICAL_SEARCH_FAILURE_CODE){

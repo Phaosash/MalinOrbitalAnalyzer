@@ -31,36 +31,61 @@ internal class BinarySearches {
     //  Programming requirements 4.10
     public static int BinarySearchRecursive (LinkedList<double> list, double searchValue, int minimum, int maximum){
         try {
-            if (minimum > maximum || list == null || list.Count == 0){
-                throw new ArgumentException("Invalid input parameters.");
-            }
+            //if (minimum > maximum || list == null || list.Count == 0){
+            //    throw new ArgumentException("Invalid input parameters.");
+            //}
 
-            LoggingHandler.Instance.LogInformation($"Recursive call: minimum={minimum}, maximum={maximum}, list count={list.Count}");
+            //LoggingHandler.Instance.LogInformation($"Recursive call: minimum={minimum}, maximum={maximum}, list count={list.Count}");
 
-            ValidateInput(list, minimum, maximum);
+            //ValidateInput(list, minimum, maximum);
 
-            if (minimum <= maximum){
-                int middle = minimum + (maximum - minimum) / 2;
+            //if (minimum <= maximum){
+            //    int middle = minimum + (maximum - minimum) / 2;
 
-                double middleValue = GetElementAt(list, middle);
+            //    double middleValue = GetElementAt(list, middle);
 
-                LoggingHandler.Instance.LogInformation($"middle={middle}, middleValue={middleValue}");
+            //    LoggingHandler.Instance.LogInformation($"middle={middle}, middleValue={middleValue}");
 
-                if (searchValue == middleValue){
-                    LoggingHandler.Instance.LogInformation($"Value found at index {middle}");
-                    return middle;
-                }
-                else if (searchValue < middleValue){
-                    LoggingHandler.Instance.LogInformation($"Searching left side: minimum={minimum}, middle={middle-1}");
-                    return BinarySearchRecursive(list, searchValue, minimum, middle - 1);
-                } else {
-                    LoggingHandler.Instance.LogInformation($"Searching right side: middle={middle+1}, maximum={maximum}");
-                    return BinarySearchRecursive(list, searchValue, middle + 1, maximum);
-                }
-            }
+            //    if (searchValue == middleValue){
+            //        LoggingHandler.Instance.LogInformation($"Value found at index {middle}");
+            //        return middle;
+            //    }
+            //    else if (searchValue < middleValue){
+            //        LoggingHandler.Instance.LogInformation($"Searching left side: minimum={minimum}, middle={middle-1}");
+            //        return BinarySearchRecursive(list, searchValue, minimum, middle - 1);
+            //    } else {
+            //        LoggingHandler.Instance.LogInformation($"Searching right side: middle={middle+1}, maximum={maximum}");
+            //        return BinarySearchRecursive(list, searchValue, middle + 1, maximum);
+            //    }
+            //}
     
-            LoggingHandler.Instance.LogInformation($"Returning minimum={minimum} as nearest neighbor");
-            return minimum;
+            //LoggingHandler.Instance.LogInformation($"Returning minimum={minimum} as nearest neighbor");
+            //return minimum;
+            if (minimum > maximum){
+                return -1;
+            }
+
+            int mid = minimum + (maximum - minimum) / 2;
+
+            LinkedListNode<double> currentNode = list.First;
+
+            for (int i = 0; i < mid; i++)
+            {
+                currentNode = currentNode.Next;
+            }
+
+            if (currentNode?.Value == searchValue)
+            {
+                return mid;
+            }
+            else if (currentNode?.Value > searchValue)
+            {
+                return BinarySearchRecursive(list, searchValue, minimum, mid - 1);
+            }
+            else
+            {
+                return BinarySearchRecursive(list, searchValue, mid + 1, maximum);
+            }
         } catch (Exception ex){
                 LoggingHandler.Instance.LogError("BinarySearchRecursive Method in class library: ", ex);
                 return -999;
