@@ -1,7 +1,6 @@
 ﻿using MalinOrbitalAnalyzer.DataModels;
 using MalinOrbitalAnalyzer.DisplayHelpers;
 using MOABackend;
-using System.Windows;
 
 namespace MalinOrbitalAnalyzer.ViewModels;
 
@@ -61,6 +60,35 @@ internal class MainDisplay (OutputElements DisplayElements){
         long timeTaken = ActionTimer.TimeAction(() => _libraryManager.RunSearch(isDataSetA, inputedValue), out int resultIndex);
         DisplaySearchTime(isDataSetA, timeTaken + " ticks", isRecursive: false);
 
+        int testValue = resultIndex;
+
+        if (resultIndex == CRITICAL_SEARCH_FAILURE_CODE){
+            ErrorDialogService.ShowWarning("An unexpected error occurred while attempting to sort the data. Please try again or contact support if the issue persists.");
+            return;
+        }
+
+        if (resultIndex == DATA_NOT_SORTED_ERROR_CODE){
+            ErrorDialogService.ShowWarning($"Unable to complete the search on {(isDataSetA ? "Sensor A" : "Sensor B")}. Please sort the data first.");
+        }
+
+        if (isDataSetA){
+            DisplayRenderer.HighlightIndices(_displayElements.DisplayBoxA!, resultIndex);
+        } else {
+            DisplayRenderer.HighlightIndices(_displayElements.DisplayBoxB!, resultIndex);
+        }
+    }
+
+    public void InitialiseRecursiveSearch (bool isDataSetA, int inputedValue){
+        if (!CanSearch(isDataSetA)){
+            return;
+        }
+
+        const int CRITICAL_SEARCH_FAILURE_CODE = -666;
+        const int DATA_NOT_SORTED_ERROR_CODE = -999;
+
+        long timeTaken = ActionTimer.TimeAction(() => _libraryManager.RunSearch(isDataSetA, inputedValue), out int resultIndex);
+        DisplaySearchTime(isDataSetA, timeTaken + " ticks", isRecursive: true);
+
         if (resultIndex == CRITICAL_SEARCH_FAILURE_CODE){
             ErrorDialogService.ShowWarning("An unexpected error occurred while attempting to sort the data. Please try again or contact support if the issue persists.");
             return;
@@ -69,22 +97,11 @@ internal class MainDisplay (OutputElements DisplayElements){
         if (resultIndex == DATA_NOT_SORTED_ERROR_CODE){
             ErrorDialogService.ShowWarning($"Unable to complete the search on {(isDataSetA ? "Sensor A" : "Sensor B")}. Please sort the data first.");
         } else {
-            //  TODO: Highlight cells in the ListBox
-            MessageBox.Show("Value found at: " + resultIndex);
-        }
-    }
-
-    public void InitialiseRecursiveSearch (bool isDataSetA, int inputedValue){
-        if (!CanSearch(isDataSetA)) return;
-
-        long timeTaken = ActionTimer.TimeAction(() => _libraryManager.RunSearch(isDataSetA, inputedValue), out int resultIndex);
-        DisplaySearchTime(isDataSetA, timeTaken + " ticks", isRecursive: true);
-
-        if (resultIndex == -999){
-            ErrorDialogService.ShowWarning($"Unable to complete the search on {(isDataSetA ? "Sensor A" : "Sensor B")}. Please sort the data first.");
-        } else {
-            //  TODO: Highlight cells in the ListBox
-            MessageBox.Show("Value found at: " + resultIndex);
+            if (isDataSetA){
+                DisplayRenderer.HighlightIndices(_displayElements.DisplayBoxA!, resultIndex);
+            } else {
+                DisplayRenderer.HighlightIndices(_displayElements.DisplayBoxB!, resultIndex);
+            }
         }
     }
 

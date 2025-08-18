@@ -194,7 +194,8 @@
                     <!--    Displays the sensor data    -->
                     <ListBox x:Name="DataDisplayA" HorizontalAlignment="Stretch"
                              ScrollViewer.VerticalScrollBarVisibility="Auto"
-                             Height="615" HorizontalContentAlignment="Center" />
+                             Height="615" HorizontalContentAlignment="Center"
+                             SelectionMode="Multiple"/>
                 </StackPanel>
             </Grid> <!--    End Central Coloumn     -->
             
@@ -303,8 +304,8 @@
                     <!--    Displays the sensor data    -->
                     <ListBox x:Name="DataDisplayB" HorizontalAlignment="Stretch"
                              ScrollViewer.VerticalScrollBarVisibility="Auto"
-                             Height="615"
-                             HorizontalContentAlignment="Center" />
+                             Height="615" HorizontalContentAlignment="Center"
+                             SelectionMode="Multiple"/>
                 </StackPanel>
             </Grid> <!--    End Right Side Column   -->
         </Grid> <!--    End Main Content Area   -->

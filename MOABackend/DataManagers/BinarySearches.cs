@@ -1,21 +1,20 @@
-﻿namespace MOABackend.DataManagers;
+﻿using ErrorLogging;
+
+namespace MOABackend.DataManagers;
 
 internal class BinarySearches {
     //  Programming requirements 4.9
     public static int BinarySearchIterative (LinkedList<double> list, double searchValue, int minimum, int maximum){
         try {
-            if (list == null || list.Count == 0 || minimum < 0 || maximum >= list.Count || minimum > maximum){
-                throw new ArgumentException("Invalid input parameters.");
-            }
+            ValidateInput(list, minimum, maximum);
 
             while (minimum <= maximum){
                 int middle = minimum + (maximum - minimum) / 2;
-                double middleValue = list.ElementAt(middle);
+                double middleValue = GetElementAt(list, middle);
 
                 if (searchValue == middleValue){
                     return middle + 1;
-                }
-                else if (searchValue < middleValue){
+                } else if (searchValue < middleValue){
                     maximum = middle - 1;
                 } else {
                     minimum = middle + 1;
@@ -23,27 +22,51 @@ internal class BinarySearches {
             }
 
             return minimum;
-        } catch {
+        } catch (Exception ex){
+            LoggingHandler.Instance.LogError("BinarySearchIterative Method in class library: ", ex);
             return -999;
         }
     }
 
     //  Programming requirements 4.10
     public static int BinarySearchRecursive (LinkedList<double> list, double searchValue, int minimum, int maximum){
-        if (minimum <= maximum){
-            int middle = minimum + (maximum - minimum) / 2;
-            double middleValue = list.ElementAt(middle);
+        try {
+            ValidateInput(list, minimum, maximum);
 
-            if (searchValue == middleValue){
-                return middle;
+            if (minimum <= maximum){
+                int middle = minimum + (maximum - minimum) / 2;
+                double middleValue = GetElementAt(list, middle);
+
+                if (searchValue == middleValue){
+                    return middle;
+                }
+                else if (searchValue < middleValue){
+                    return BinarySearchRecursive(list, searchValue, minimum, middle - 1);
+                } else {
+                    return BinarySearchRecursive(list, searchValue, middle + 1, maximum);
+                }
             }
-            else if (searchValue < middleValue){
-                return BinarySearchRecursive(list, searchValue, minimum, middle - 1);
-            } else {
-                return BinarySearchRecursive(list, searchValue, middle + 1, maximum);
-            }
+
+            return minimum;
+        } catch (Exception ex){
+            LoggingHandler.Instance.LogError("BinarySearchRecursive Method in class library: ", ex);
+            return -999;
+        }
+    }
+
+    private static void ValidateInput (LinkedList<double> list, int minimum, int maximum){
+        if (list == null || list.Count == 0 || minimum < 0 || maximum >= list.Count || minimum > maximum){
+            throw new ArgumentException("Invalid input parameters.");
+        }
+    }
+
+    private static double GetElementAt (LinkedList<double> list, int index){
+        LinkedListNode<double> currentNode = list.First!;
+        
+        for (int i = 0; i < index; i++){
+            currentNode = currentNode.Next!;
         }
 
-        return minimum;
+        return currentNode.Value;
     }
 }
