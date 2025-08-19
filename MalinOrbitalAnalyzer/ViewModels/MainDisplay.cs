@@ -62,17 +62,10 @@ internal class MainDisplay (OutputElements DisplayElements){
 
         if (resultIndex == CRITICAL_SEARCH_FAILURE_CODE){
             ErrorDialogService.ShowWarning("An unexpected error occurred while attempting to sort the data. Please try again or contact support if the issue persists.");
-            return;
-        }
-
-        if (resultIndex == DATA_NOT_SORTED_ERROR_CODE){
+        } else if (resultIndex == DATA_NOT_SORTED_ERROR_CODE){
             ErrorDialogService.ShowWarning($"Unable to complete the search on {(isDataSetA ? "Sensor A" : "Sensor B")}. Please sort the data first.");
-        }
-
-        if (isDataSetA){
-            DisplayRenderer.HighlightIndices(_displayElements.DisplayBoxA!, resultIndex);
         } else {
-            DisplayRenderer.HighlightIndices(_displayElements.DisplayBoxB!, resultIndex);
+            DisplayValues(isDataSetA, resultIndex);
         }
     }
 
@@ -87,19 +80,22 @@ internal class MainDisplay (OutputElements DisplayElements){
         long timeTaken = ActionTimer.TimeAction(() => _libraryManager.RunRecursiveSearch(isDataSetA, inputedValue), out int resultIndex);
         DisplaySearchTime(isDataSetA, timeTaken + " ticks", isRecursive: true);
 
+        int test = resultIndex;
+
         if (resultIndex == CRITICAL_SEARCH_FAILURE_CODE){
             ErrorDialogService.ShowWarning("An unexpected error occurred while attempting to sort the data. Please try again or contact support if the issue persists.");
-            return;
-        }
-
-        if (resultIndex == DATA_NOT_SORTED_ERROR_CODE){
+        } else if (resultIndex == DATA_NOT_SORTED_ERROR_CODE){
             ErrorDialogService.ShowWarning($"Unable to complete the search on {(isDataSetA ? "Sensor A" : "Sensor B")}. Please sort the data first.");
         } else {
-            if (isDataSetA){
-                DisplayRenderer.HighlightIndices(_displayElements.DisplayBoxA!, resultIndex);
-            } else {
-                DisplayRenderer.HighlightIndices(_displayElements.DisplayBoxB!, resultIndex);
-            }
+            DisplayValues(isDataSetA, resultIndex);
+        }
+    }
+
+    private void DisplayValues (bool isSetA, int index){
+        if (isSetA){
+            DisplayRenderer.HighlightIndices(_displayElements.DisplayBoxA!, index);
+        } else {
+            DisplayRenderer.HighlightIndices(_displayElements.DisplayBoxB!, index);
         }
     }
 
