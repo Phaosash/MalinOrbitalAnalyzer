@@ -1,4 +1,4 @@
-﻿using ErrorLogging;
+﻿using ErrorLoggingLibrary;
 using System.Diagnostics;
 
 namespace MalinOrbitalAnalyzer.DisplayHelpers;

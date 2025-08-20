@@ -195,7 +195,8 @@
                     <ListBox x:Name="DataDisplayA" HorizontalAlignment="Stretch"
                              ScrollViewer.VerticalScrollBarVisibility="Auto"
                              Height="615" HorizontalContentAlignment="Center"
-                             SelectionMode="Multiple"/>
+                             SelectionMode="Multiple"
+                             VirtualizingPanel.IsVirtualizing="False" />
                 </StackPanel>
             </Grid> <!--    End Central Coloumn     -->
             
@@ -305,7 +306,8 @@
                     <ListBox x:Name="DataDisplayB" HorizontalAlignment="Stretch"
                              ScrollViewer.VerticalScrollBarVisibility="Auto"
                              Height="615" HorizontalContentAlignment="Center"
-                             SelectionMode="Multiple"/>
+                             SelectionMode="Multiple"
+                             VirtualizingPanel.IsVirtualizing="False"/>
                 </StackPanel>
             </Grid> <!--    End Right Side Column   -->
         </Grid> <!--    End Main Content Area   -->
