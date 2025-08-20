@@ -1,4 +1,4 @@
-﻿using ErrorLogging;
+﻿using ErrorLoggingLibrary;
 using Galileo6;
 
 namespace MOABackend.DataManagers;

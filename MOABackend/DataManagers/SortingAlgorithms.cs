@@ -1,4 +1,4 @@
-﻿using ErrorLogging;
+﻿using ErrorLoggingLibrary;
 
 namespace MOABackend.DataManagers;
 
