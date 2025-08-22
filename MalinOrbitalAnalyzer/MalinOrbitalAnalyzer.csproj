@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ErrorLoggingClassLibrary\ErrorLoggingLibrary\ErrorLoggingLibrary\ErrorLoggingLibrary.csproj" />
     <ProjectReference Include="..\MOABackend\MOABackend.csproj" />
   </ItemGroup>
 
