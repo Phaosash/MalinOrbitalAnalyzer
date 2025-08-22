@@ -16,15 +16,6 @@ internal static class ErrorDialogService {
         MessageBox.Show(userMessage, "Alert", MessageBoxButton.OK, MessageBoxImage.Error);
     }
 
-    //  This method displays an informational message to the user. It takes a string message
-    //  as a parameter and shows it in a message box with the title "Alert". The message box
-    //  includes an "OK" button and an information icon to clearly indicate that the message
-    //  is informational. This method is useful for notifying users of general information
-    //  or updates.
-    public static void ShowInfo (string message){
-        MessageBox.Show(message, "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
-    }
-
     //  This method displays a warning message to the user. It takes a string message as a
     //  parameter and shows it in a message box with the title "Alert". The message box includes
     //  an "OK" button and a warning icon, indicating that the message is intended to alert the

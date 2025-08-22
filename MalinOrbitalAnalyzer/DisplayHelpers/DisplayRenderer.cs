@@ -4,21 +4,15 @@ using System.Windows.Controls;
 namespace MalinOrbitalAnalyzer.DisplayHelpers;
 
 internal static class DisplayRenderer {
-    //  This method populates a ListBox with data from an IEnumerable<double>. It first clears any existing
-    //  data by setting the ItemsSource property to null.
-    //  The .ToList() is needed to ensure that the display updates correctly, otherwise it wont update as intended.
+    //  This method refreshes the contents of a ListBox by first clearing its item source and then setting it to a list created from the given data collection.
+    //  This ensures the ListBox displays the updated data.
     public static void DisplayListBoxData (ListBox listBox, IEnumerable<double> data){
         listBox.ItemsSource = null;
         listBox.ItemsSource = data.ToList();
     }
 
-    //  This method fills a ListView with data from two LinkedList<double> collections, setA and setB.
-    //  It first clears any existing items in the ListView. It then uses enumerators for both linked
-    //  lists (setA and setB) to iterate through their elements. For each iteration, it checks if there
-    //  is data in either list and creates a SensorData object, assigning values to SensorA and SensorB
-    //  based on whether the enumerators can move to the next element. The created SensorData object is
-    //  added to the ListView. If an error occurs during this process, an error dialog is displayed,
-    //  showing a message and exception details.
+    //  This method clears the current items in a ListView and populates it with paired data from two linked lists, aligning their elements side by side even
+    //  if their lengths differ. If an error occurs during this process, it displays an error dialog with details about the exception.
     public static void PopulateListView (ListView listView, LinkedList<double> setA, LinkedList<double> setB){
         try {
             listView.Items.Clear();
@@ -41,12 +35,8 @@ internal static class DisplayRenderer {
         }
     }
 
-    //  This method highlights specific items in a ListBox based on a given targetIndex. It first checks if the
-    //  ListBox is null or if the targetIndex is out of bounds. If the checks pass, it clears any existing selections
-    //  from the ListBox and calculates the indices of the items to highlight using the GetHighlightedIndices method.
-    //  The method then adds the items at those indices to the SelectedItems collection of the ListBox. Finally, it
-    //  ensures that the ListBox scrolls to the targetIndex item. If any errors occur, an error dialog is shown,
-    //  providing details about the issue.
+    //  This method selects and highlights specific items in a ListBox based on a target index, ensuring the item is visible by scrolling to it. If an error occurs,
+    //  it shows an error dialog with relevant details.
     public static void HighlightIndices (ListBox listBox, int targetIndex){
         try {
             if (listBox == null || targetIndex < 0 || targetIndex >= listBox.Items.Count){
@@ -66,14 +56,8 @@ internal static class DisplayRenderer {
         }
     }
 
-    //  This method calculates the indices of items to highlight around a given targetIndex in a ListBox,
-    //  ensuring that the indices are within valid bounds. It starts by adding the targetIndex to the list
-    //  of indices. Then, for i = 1 and i = 2, it checks if the indices targetIndex - i and targetIndex + i
-    //  are within the valid range (i.e., between 0 and itemCount - 1). It adds these indices to the list
-    //  accordingly, both before and after the targetIndex. The method then returns the list of indices, including
-    //  the targetIndex again at the start. If an exception occurs during the process, an error dialog is shown,
-    //  and an empty list is returned (although return [] should be corrected to return new List<int>(); to avoid a
-    //  compilation error).
+    //  This method returns a list of indices centered around a target index, including up to two items before and after it, while ensuring
+    //  they stay within valid bounds. If an exception occurs, it logs the error and returns an empty list.
     private static List<int> GetHighlightedIndices (int targetIndex, int itemCount){
         try {
             var indices = new List<int> { targetIndex };
